@@ -2,6 +2,7 @@ import config from '@/config'
 import {ADMIN} from '@/config/default'
 import {formatFullPath} from '@/utils/i18n'
 import {filterMenu} from '@/utils/authority-utils'
+import {userSetting} from '@/utils/util'
 
 export default {
   namespaced: true,
@@ -13,6 +14,7 @@ export default {
     menuData: [],
     activatedFirst: undefined,
     ...config,
+    ...userSetting(),
   },
   getters: {
     menuData(state, getters, rootState) {

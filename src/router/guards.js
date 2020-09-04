@@ -1,6 +1,18 @@
 import {hasAuthority} from '@/utils/authority-utils'
 import {loginIgnore} from '@/router/index'
 import {checkAuthorization} from '@/utils/request'
+//引入nprogress
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+NProgress.configure({     
+  easing: 'ease',  // 动画方式    
+  speed: 500,  // 递增进度条的速度    
+  showSpinner: false, // 是否显示加载ico    
+  trickleSpeed: 200, // 自动递增间隔    
+  minimum: 0.3 // 初始化时的最小百分比
+})
+
 
 /**
  * 登录守卫
@@ -62,6 +74,11 @@ const redirectGuard = (to, from, next, options) => {
 }
 
 export default {
-  beforeEach: [loginGuard, authorityGuard, redirectGuard],
-  afterEach: []
+  beforeEach: [ async (to, from, next) => {
+    NProgress.start()
+    next()
+  }, loginGuard, authorityGuard, redirectGuard],
+  afterEach: [() => {
+    NProgress.done()
+  }]
 }

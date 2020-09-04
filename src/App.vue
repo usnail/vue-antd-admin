@@ -24,6 +24,7 @@ export default {
   },
   mounted() {
    this.setWeekModeTheme(this.weekMode)
+   themeUtil.changeThemeColor(this.theme.color, this.theme.mode)
   },
   watch: {
     weekMode(val) {
@@ -46,10 +47,18 @@ export default {
       themeUtil.changeThemeColor(val, this.theme.mode).then(() => {
         setTimeout(closeMessage, 1000)
       })
+    },
+    setting: {
+      handler(val) {
+        const parsed = JSON.stringify(val);
+        localStorage.setItem('user-setting', parsed)
+      },
+      deep: true
     }
   },
   computed: {
-    ...mapState('setting', ['theme', 'weekMode', 'lang'])
+    ...mapState(['setting']),
+    ...mapState('setting', ['theme', 'weekMode', 'lang']),
   },
   methods: {
     ...mapMutations('setting', ['setDevice']),
@@ -84,7 +93,13 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-  #id{
+<style lang="less">
+  #nprogress{
+    position: absolute;
+    z-index: 9999;
+    background-color: @primary-color;
+    /deep/ .bar {
+      background-color: @primary-color;
+    }
   }
 </style>

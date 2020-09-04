@@ -32,4 +32,17 @@ export function enquireScreen(call) {
   enquireJs.register('only screen and (max-width: 767.99px)', handler)
 }
 
+export const userSetting  = () =>{
+  const key = 'user-setting'
+  let val = localStorage.getItem(key)
+  if (val) {
+    try {
+      return JSON.parse(val)
+    } catch(e) {
+      localStorage.removeItem(key)
+    }
+  }
+  return {}
+}
+
 const _toString = Object.prototype.toString
